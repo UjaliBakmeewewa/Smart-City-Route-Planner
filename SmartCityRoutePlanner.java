@@ -1,56 +1,14 @@
-/*Represents a city point (e.g., “Colombo”, “Kandy”) */
+import java.util.*;
 
+// Class representing a city location  (1 *Ujali)
 class Location {
     String name;
     Location(String name) {
-        this.name = name;
-    }
+        this.name = name;
+    }
 }
 
-/*Represents roads between locations (Adjacency List recommended) */
-
-import java.util.*;
-
-class Graph {
-    private Map<String, List<String>> adjList = new HashMap<>();
-
-    public void addLocation(String name) {
-        adjList.putIfAbsent(name, new ArrayList<>());
-    }
-
-    public void removeLocation(String name) {
-        adjList.remove(name);
-        for (List<String> roads : adjList.values()) {
-            roads.remove(name);
-        }
-    }
-
-    public void addRoad(String from, String to) {
-        if (adjList.containsKey(from) && adjList.containsKey(to)) {
-            adjList.get(from).add(to);
-            adjList.get(to).add(from);
-        }
-    }
-
-    public void removeRoad(String from, String to) {
-        adjList.get(from).remove(to);
-        adjList.get(to).remove(from);
-    }
-
-    public void displayConnections() {
-        for (var entry : adjList.entrySet()) {
-            System.out.println(entry.getKey() + " → " + entry.getValue());
-        }
-    }
-
-    public Set<String> getLocations() {
-        return adjList.keySet();
-    }
-}
-
-/*Use an AVL Tree or Linked List to store and display locations.*/
-
-
+// Class representing a simple linked list for storing locations
 class LocationList {
     LinkedList<String> locations = new LinkedList<>();
 
@@ -63,38 +21,97 @@ class LocationList {
     }
 
     public void display() {
+        if (locations.isEmpty()) {
+            System.out.println("No locations added yet.");
+            return;
+        }
+        System.out.println("All Locations:");
         for (String loc : locations) {
-            System.out.println("- " + loc);
+            System.out.println(" - " + loc);
         }
     }
 }
 
+ // Class representing a graph using adjacency list (Sithara)
+class Graph {
+    private Map<String, List<String>> adjList = new HashMap<>();
 
-public void bfsTraversal(String start) {
-    Queue<String> queue = new LinkedList<>();
-    Set<String> visited = new HashSet<>();
+    public void addLocation(String name) {
+        adjList.putIfAbsent(name, new ArrayList<>());
+    }
 
-    queue.add(start);
-    visited.add(start);
+    public void removeLocation(String name) {
+        if (!adjList.containsKey(name)) {
+            System.out.println("Location not found.");
+            return;
+        }
+        adjList.remove(name);
+        for (List<String> roads : adjList.values()) {
+            roads.remove(name);
+        }
+    }
 
-    while (!queue.isEmpty()) {
-        String current = queue.poll();
-        System.out.print(current + " ");
+    public void addRoad(String from, String to) {
+        if (!adjList.containsKey(from) || !adjList.containsKey(to)) {
+            System.out.println("One or both locations do not exist!");
+            return;
+        }
+        adjList.get(from).add(to);
+        adjList.get(to).add(from);
+    }
 
-        for (String neighbor : adjList.get(current)) {
-            if (!visited.contains(neighbor)) {
-                visited.add(neighbor);
-                queue.add(neighbor);
+    public void removeRoad(String from, String to) {
+        if (!adjList.containsKey(from) || !adjList.containsKey(to)) {
+            System.out.println("Invalid locations!");
+            return;
+        }
+        adjList.get(from).remove(to);
+        adjList.get(to).remove(from);
+    }
+
+    public void displayConnections() {
+        if (adjList.isEmpty()) {
+            System.out.println("No connections available.");
+            return;
+        }
+        System.out.println("City Connections:");
+        for (var entry : adjList.entrySet()) {
+            System.out.println(entry.getKey() + " → " + entry.getValue());
+        }
+    }
+
+    // Optional: Breadth-First Traversal ( using Queue) ( Ruwanthika )
+    public void bfsTraversal(String start) {
+        if (!adjList.containsKey(start)) {
+            System.out.println("Start location not found!");
+            return;
+        }
+
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+
+        queue.add(start);
+        visited.add(start);
+
+        System.out.print("BFS Route from " + start + ": ");
+        while (!queue.isEmpty()) {
+            String current = queue.poll();
+            System.out.print(current + " ");
+
+            for (String neighbor : adjList.get(current)) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.add(neighbor);
+                }
             }
         }
+        System.out.println();
     }
-    System.out.println();
 }
 
 
-
-// Main Class 
-public class SmartCityRouteP {
+// Main Class  (pasindu)
+public class SmartCityRoutePlanner {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Graph graph = new Graph();
