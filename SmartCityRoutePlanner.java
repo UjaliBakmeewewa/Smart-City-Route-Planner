@@ -1,6 +1,6 @@
 import java.util.*;
 
-// Class representing a city location  (1 *Ujali)
+// Class representing a city location  (M1_Ujali)
 class Location {
     String name;
     Location(String name) {
@@ -8,7 +8,7 @@ class Location {
     }
 }
 
-// Class representing a simple linked list for storing locations
+// Class representing a simple linked list for storing locations (M2_Sithara)
 class LocationList {
     LinkedList<String> locations = new LinkedList<>();
 
@@ -32,7 +32,7 @@ class LocationList {
     }
 }
 
- // Class representing a graph using adjacency list (Sithara)
+ // Class representing a graph using adjacency list (M1_Ujali)
 class Graph {
     private Map<String, List<String>> adjList = new HashMap<>();
 
@@ -80,7 +80,7 @@ class Graph {
         }
     }
 
-    // Optional: Breadth-First Traversal ( using Queue) ( Ruwanthika )
+    // Optional: Breadth-First Traversal ( using Queue) (M3_Ruwanthika )
     public void bfsTraversal(String start) {
         if (!adjList.containsKey(start)) {
             System.out.println("Start location not found!");
@@ -110,7 +110,7 @@ class Graph {
 }
 
 
-// Main Class  (pasindu)
+// Main Class  (M4_pasindu)
 public class SmartCityRoutePlanner {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
